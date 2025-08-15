@@ -1,0 +1,19 @@
+{
+  "apps": [
+    {
+      "name": "Log Monitor",
+      "script": "/root/log_monitor/log_monitor.py",
+      "interpreter": "python3",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "error_file": "/var/log/log_monitor_pm2.error.log",
+      "out_file": "/var/log/log_monitor_pm2.out.log",
+      "merge_logs": true,
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "200M",
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  ]
+}
