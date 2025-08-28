@@ -58,18 +58,18 @@ class LogMonitor:
             return False
 
     def stop_pm2_app(self, pm2_name, display_name):
-        """إيقاف تطبيق PM2"""
         try:
-            result = subprocess.run(
-                ['pm2', 'stop', pm2_name],
-                capture_output=True,
-                text=True,
-                check=True
-            )
-            self.log_message(f"تم إيقاف {display_name} ({pm2_name}) بنجاح")
+            subprocess.run(['pm2', 'stop', pm2_name], check=True)
+            self.log_message(f"تم إيقاف {display_name}")
+
+            # إعادة التشغيل بعد 5 دقائق (300 ثانية)
+            time.sleep(300)
+            subprocess.run(['pm2', 'start', pm2_name], check=True)
+            self.log_message(f"تم إعادة تشغيل {display_name}")
+
             return True
         except subprocess.CalledProcessError as e:
-            self.log_message(f"فشل إيقاف {display_name} ({pm2_name}): {e.stderr.strip()}")
+            self.log_message(f"خطأ: {e.stderr}")
             return False
 
     def monitor_file(self, log_config):
